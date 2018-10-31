@@ -40,3 +40,10 @@ COPY --chown=wso2carbon:wso2 ${CONFIG}/tenant-mgt.xml ${WSO2_SERVER_CONF}/
 COPY --chown=wso2carbon:wso2 ${CONFIG}/user-mgt.xml ${WSO2_SERVER_CONF}/
 # for claim mapping mismatch on "urn:ietf:params:scim:schemas:core:2.0:meta.resourceType" 
 COPY --chown=wso2carbon:wso2 ${CONFIG}/claim-config.xml ${WSO2_SERVER_CONF}/
+
+# Creating New Keystores 
+COPY ./wso2carbon.jks /${USER_HOME}/${WSO2_SERVER_PACK}/repository/resources/security/wso2carbon.jks
+COPY ./is/files/catalina-server.xml /${USER_HOME}/${WSO2_SERVER_PACK}/repository/conf/tomcat/catalina-server.xml
+WORKDIR ${USER_HOME}/${WSO2_SERVER_PACK}/repository/resources/security/
+RUN keytool -export -alias wso2carbon -keystore wso2carbon.jks -file publickey.pem
+RUN yes | keytool -import -alias wso2 -file publickey.pem -keystore client-truststore.jks -storepass wso2carbon
