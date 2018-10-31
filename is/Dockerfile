@@ -42,6 +42,8 @@ COPY --chown=wso2carbon:wso2 ${CONFIG}/user-mgt.xml ${WSO2_SERVER_CONF}/
 COPY --chown=wso2carbon:wso2 ${CONFIG}/claim-config.xml ${WSO2_SERVER_CONF}/
 
 # Creating New Keystores 
+RUN echo $(ls ${USER_HOME}/${WSO2_SERVER_PACK}/) --no-cache
+
 COPY ./wso2carbon.jks /${USER_HOME}/${WSO2_SERVER_PACK}/repository/resources/security/wso2carbon.jks
 COPY ./is/files/catalina-server.xml /${USER_HOME}/${WSO2_SERVER_PACK}/repository/conf/tomcat/catalina-server.xml
 WORKDIR ${USER_HOME}/${WSO2_SERVER_PACK}/repository/resources/security/
