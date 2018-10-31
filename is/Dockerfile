@@ -44,8 +44,8 @@ COPY --chown=wso2carbon:wso2 ${CONFIG}/claim-config.xml ${WSO2_SERVER_CONF}/
 # Creating New Keystores 
 RUN echo $(ls ${USER_HOME}/${WSO2_SERVER_PACK}/) --no-cache
 
-COPY ./wso2carbon.jks /${USER_HOME}/${WSO2_SERVER_PACK}/repository/resources/security/wso2carbon.jks
-COPY ./is/files/catalina-server.xml /${USER_HOME}/${WSO2_SERVER_PACK}/repository/conf/tomcat/catalina-server.xml
-WORKDIR ${USER_HOME}/${WSO2_SERVER_PACK}/repository/resources/security/
+COPY ./wso2carbon.jks ${WSO2_SERVER_HOME}/repository/resources/security/wso2carbon.jks
+COPY ./is/files/catalina-server.xml ${WSO2_SERVER_HOME}/repository/conf/tomcat/catalina-server.xml
+WORKDIR ${WSO2_SERVER_HOME}/repository/resources/security/
 RUN keytool -export -alias wso2carbon -keystore wso2carbon.jks -file publickey.pem
 RUN yes | keytool -import -alias wso2 -file publickey.pem -keystore client-truststore.jks -storepass wso2carbon
